@@ -252,6 +252,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                     strcat(labelstr, names[j]);
                 }
                 printf("%s: %.0f%%\n", names[j], probs[i][j]*100);
+                class = strcmp(names[j], "person") == 0 ? j : -1;
             }
         }
         if(class >= 0){
@@ -289,11 +290,11 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             if(bot > im.h-1) bot = im.h-1;
 
             draw_box_width(im, left, top, right, bot, width, red, green, blue);
-            if (alphabet) {
-                image label = get_label(alphabet, labelstr, (im.h*.03)/10);
-                draw_label(im, top + width, left, label, rgb);
-                free_image(label);
-            }
+            // if (alphabet) {
+            //     image label = get_label(alphabet, labelstr, (im.h*.03)/10);
+            //     draw_label(im, top + width, left, label, rgb);
+            //     free_image(label);
+            // }
             if (masks){
                 image mask = float_to_image(14, 14, 1, masks[i]);
                 image resized_mask = resize_image(mask, b.w*im.w, b.h*im.h);
